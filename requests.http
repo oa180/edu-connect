@@ -1,0 +1,81 @@
+### AUTH
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "AdminPass123!"
+}
+
+### REFRESH
+POST http://localhost:3000/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### LOGOUT (replace {{accessToken}})
+POST http://localhost:3000/api/auth/logout
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### ADMIN create teacher
+POST http://localhost:3000/api/admin/users
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "New Teacher",
+  "email": "new-teacher@example.com",
+  "password": "Teacher#1",
+  "role": "TEACHER"
+}
+
+### ADMIN list users
+GET http://localhost:3000/api/admin/users?page=1&limit=10&role=TEACHER
+Authorization: Bearer {{accessToken}}
+
+### ADMIN assign student
+POST http://localhost:3000/api/admin/assign-student
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "teacherId": "{{teacherId}}",
+  "studentId": "{{studentId}}"
+}
+
+### TEACHER list students
+GET http://localhost:3000/api/teacher/students?page=1&limit=10
+Authorization: Bearer {{teacherAccessToken}}
+
+### TEACHER create group
+POST http://localhost:3000/api/teacher/groups
+Authorization: Bearer {{teacherAccessToken}}
+Content-Type: application/json
+
+{
+  "name": "Group A"
+}
+
+### TEACHER add student to group
+POST http://localhost:3000/api/teacher/groups/{{groupId}}/add-student
+Authorization: Bearer {{teacherAccessToken}}
+Content-Type: application/json
+
+{
+  "studentId": "{{studentId}}"
+}
+
+### CHAT private history (teacher<->student)
+GET http://localhost:3000/api/chat/private/{{otherUserId}}?page=1&limit=20
+Authorization: Bearer {{accessToken}}
+
+### CHAT group history
+GET http://localhost:3000/api/chat/group/{{groupId}}?page=1&limit=20
+Authorization: Bearer {{accessToken}}
